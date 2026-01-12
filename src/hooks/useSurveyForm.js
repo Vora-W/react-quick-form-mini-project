@@ -7,6 +7,7 @@ export function useSurveyForm() {
   const [selectedMovie, setSelectedMovie] = useState('');
   const [comment, setComment] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [errors, setErrors] = useState({
     name: '',
     email: '',
@@ -16,14 +17,15 @@ export function useSurveyForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { hasError, errors: newErrors } = validateSurveyForm({ 
+    const { hasError: validationHasError, errors: newErrors } = validateSurveyForm({ 
       name, 
       email, 
       selectedMovie 
     });
     setErrors(newErrors);
+    setHasError(validationHasError);
 
-    if (!hasError) {
+    if (!validationHasError) {
       setIsSubmitted(true);
     }
   };
@@ -34,6 +36,7 @@ export function useSurveyForm() {
     setSelectedMovie('');
     setComment('');
     setErrors({ name: '', email: '', movie: '' });
+    setHasError(false);
     setIsSubmitted(false);
   };
 
@@ -44,6 +47,7 @@ export function useSurveyForm() {
     selectedMovie,
     comment,
     isSubmitted,
+    hasError,
     errors,
     // Setters
     setName,
